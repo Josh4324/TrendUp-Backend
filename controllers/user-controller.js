@@ -214,6 +214,26 @@ exports.logIn = async (req, res) => {
       return res.status(response.code).json(response);
     }
 
+    if (user.verified === false) {
+      const code = uuidv4().slice(0, 6);
+
+      const payload1 = {
+        code,
+      };
+
+      const newToken1 = await token.generateToken(payload1, 600);
+      const updatePayload = {
+        token: newToken1,
+      };
+      const updatedUser = await userService.updateUser(user.id, updatePayload);
+
+      const mail = await mailService.sendSignupEmail(
+        email,
+        code,
+        userData.firstName
+      );
+    }
+
     const payload = {
       id: userData.id,
       role: userData.role,

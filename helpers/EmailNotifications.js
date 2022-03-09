@@ -1,19 +1,18 @@
-const mailer = require('../config/mailerConfig');
-const template = require('./EmailTemplate');
-
+const mailer = require("../config/mailerConfig");
+const template = require("./EmailTemplate");
 
 class EmailNotifications {
-    /**
-     *
-     * @param {object} req Request Object
-     * @param {object} user User
-     * @param {string} resetToken Reset Token
-     * @returns {function} returns a function
-     */
-    static async sendPasswordResetMail(firstName, email, link) {
-      const subject = 'Password Recovery';
-      const image = "";
-      const emailBody = `
+  /**
+   *
+   * @param {object} req Request Object
+   * @param {object} user User
+   * @param {string} resetToken Reset Token
+   * @returns {function} returns a function
+   */
+  static async sendPasswordResetMail(firstName, email, link) {
+    const subject = "Password Recovery";
+    const image = "";
+    const emailBody = `
         <h3 class="username">Hello ${firstName},</h3>
         <p class="message">
           Click the link below to reset your password
@@ -21,23 +20,22 @@ class EmailNotifications {
         <a class="btn" href=${link}>
           Reset password
         </a>`;
-      const content = template(subject, emailBody, image);
-      mailer.sendMail(email, subject, content);
-    }
-  
-    /**
-     * @param {*} email
-     * @param {*} code
-     * @param {*} name
-     * @returns {*} sends an email to a new user
-     */
-    static async signupEmail(email, code, name) {
-      //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
-      //const { message: signupMessage, image } = dbMessage;
-      const image = "";
-      const title = 'Welcome to TrendUpp';
-      const body = 
-      `
+    const content = template(subject, emailBody, image);
+    mailer.sendMail(email, subject, content);
+  }
+
+  /**
+   * @param {*} email
+   * @param {*} code
+   * @param {*} name
+   * @returns {*} sends an email to a new user
+   */
+  static async signupEmail(email, code, name) {
+    //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
+    //const { message: signupMessage, image } = dbMessage;
+    const image = "";
+    const title = "Welcome to TrendUpp";
+    const body = `
 
       <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
      
@@ -111,17 +109,16 @@ class EmailNotifications {
     </table>
        
        `;
-      const message = template(title, body, image);
-      mailer.sendMail(email, title, message);
-    }
+    const message = template(title, body, image);
+    mailer.sendMail(email, title, message);
+  }
 
-    static async paymentEmail(email) {
-      //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
-      //const { message: signupMessage, image } = dbMessage;
-      const image = "";
-      const title = 'You just received a payment from a fan';
-      const body = 
-      `
+  static async paymentEmail(email) {
+    //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
+    //const { message: signupMessage, image } = dbMessage;
+    const image = "";
+    const title = "You just received a payment from a fan";
+    const body = `
 
       <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
      
@@ -195,17 +192,16 @@ class EmailNotifications {
     </table>
        
        `;
-      const message = template(title, body, image);
-      mailer.sendMail(email, title, message);
-    }
+    const message = template(title, body, image);
+    mailer.sendMail(email, title, message);
+  }
 
-    static async anonymousSignupEmail(email,name,password) {
-      //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
-      //const { message: signupMessage, image } = dbMessage;
-      const image = "";
-      const title = 'Welcome to TrendUpp';
-      const body = 
-      `
+  static async anonymousSignupEmail(email, name, password) {
+    //const dbMessage = await EmailNotification.findOne({ where: { type: 'signup' }});
+    //const { message: signupMessage, image } = dbMessage;
+    const image = "";
+    const title = "Welcome to TrendUpp";
+    const body = `
 
       <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
      
@@ -223,7 +219,7 @@ class EmailNotifications {
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
-                      <p>Dear new User</p>
+                      <p>Dear ${name}</p>
 
                         Welcome to TrendUpp! We are excited to have you! <br/><br/>      
                           
@@ -279,10 +275,9 @@ class EmailNotifications {
     </table>
        
        `;
-      const message = template(title, body, image);
-      mailer.sendMail(email, title, message);
-    }
+    const message = template(title, body, image);
+    mailer.sendMail(email, title, message);
   }
-  
-module.exports =  EmailNotifications;
-  
+}
+
+module.exports = EmailNotifications;
