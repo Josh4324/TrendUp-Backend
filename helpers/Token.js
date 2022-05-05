@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const {JWT_SECRET, JWT_EXPIRES_IN} = process.env
-const Response = require('./Response');
+const { JWT_SECRET, JWT_EXPIRES_IN } = process.env;
+const Response = require("./Response");
 /** Token Helper Class */
 let expires = JWT_EXPIRES_IN;
 module.exports = class Token {
-    /**
+  /**
    * @description - this method encodes a token
    * @param {object} payload
    * @param {string} secret
@@ -13,12 +13,12 @@ module.exports = class Token {
    * @return {string} token
    */
 
-async generateToken(payload, JWT_EXPIRES_IN = expires ){
-    console.log(JWT_SECRET)
-    return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
-}
+  async generateToken(payload, JWT_EXPIRES_IN = expires) {
+    console.log(JWT_SECRET);
+    return jwt.sign(payload, JWT_SECRET);
+  }
 
-/**
+  /**
    * Verfify Token Method
    * @static
    * @param {object} req
@@ -26,34 +26,31 @@ async generateToken(payload, JWT_EXPIRES_IN = expires ){
    * @param {object} next
    * @returns {object} returns the token object payload
    * @memberof Token
-  */
- verifyToken(req, res, next) {
+   */
+  verifyToken(req, res, next) {
     const token = req.headers.authorization.split(" ")[1];
-    console.log(token)
+    console.log(token);
     try {
       if (!token) {
-        console.log("here")
+        console.log("here");
         const response = new Response(
           false,
           401,
-          'Access Denied, You did not provide a token'
+          "Access Denied, You did not provide a token"
         );
         return res.status(response.code).json(response);
       }
-      const payload = jwt.verify(token,JWT_SECRET);
+      const payload = jwt.verify(token, JWT_SECRET);
       req.payload = payload;
 
       return next();
-
     } catch (err) {
       const response = new Response(
         false,
         401,
-        'Access Denied, Your token is invalid or expired'
+        "Access Denied, Your token is invalid or expired"
       );
       return res.status(response.code).json(response);
     }
   }
-
-
-}
+};
